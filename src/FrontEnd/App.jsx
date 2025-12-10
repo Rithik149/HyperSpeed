@@ -11,27 +11,27 @@ export default function App() {
         <div className="glass-heading">
           <h1>Hyperspeed</h1>
         </div>
-        <div className="upload">
-          <div class="container">
-            <div class="folder">
-              <div class="front-side">
-                <div class="tip"></div>
-                <div class="cover"></div>
+        <form action="/" method="POST">
+          <div className="upload">
+            <div class="container">
+              <div class="folder">
+                <div class="front-side">
+                  <div class="tip"></div>
+                  <div class="cover"></div>
+                </div>
+                <div class="back-side cover"></div>
               </div>
-              <div class="back-side cover"></div>
+              <label class="custom-file-upload">
+                <input class="title" type="file" />
+                Upload a File
+              </label>
             </div>
-            <label class="custom-file-upload">
-              <input class="title" type="file" />
-              Upload a File
-            </label>
           </div>
-        </div>
-        <div className="key">
-          <form action="/" method="POST">
-            <label for="code" className="code-label">Receive</label>
-            
-          </form>
-        </div>
+          <div className="key">
+            <label for="code">Receive</label>
+            <input type="number" id="key" name="code" min="6" max="6"></input>
+          </div>
+        </form>
       </div>
     </>
   );

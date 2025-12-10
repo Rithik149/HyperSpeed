@@ -77,8 +77,12 @@ body,
   align-items: center;
   padding-top: 26%;
 }
-
-
+.key{
+  position: relative;
+}
+.key label{
+  color: white;
+}
 /* From Uiverse.io by jamrockjones */
 .container {
   
