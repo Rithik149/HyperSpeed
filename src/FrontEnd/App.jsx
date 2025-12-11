@@ -11,27 +11,39 @@ export default function App() {
         <div className="glass-heading">
           <h1>Hyperspeed</h1>
         </div>
-        <form action="/" method="POST">
-          <div className="upload">
-            <div class="container">
-              <div class="folder">
-                <div class="front-side">
-                  <div class="tip"></div>
-                  <div class="cover"></div>
+        <div className="main-container">
+          <form action="/upload" method="POST">
+              <div className="container">
+                <div className="folder">
+                  <div className="front-side">
+                    <div className="tip"></div>
+                    <div className="cover"></div>
+                  </div>
+                  <div className="back-side cover"></div>
                 </div>
-                <div class="back-side cover"></div>
+                <label className="custom-file-upload">
+                  <input className="title" type="file" />
+                  Upload a File
+                </label>
               </div>
-              <label class="custom-file-upload">
-                <input class="title" type="file" />
-                Upload a File
-              </label>
+          </form>
+          <form action="/download" method="POST">
+            <div className="key-container">
+              <div className="key">
+                <label htmlFor="key">Receive</label>
+                <input
+                  type="text"
+                  id="key"
+                  name="code"
+                  pattern="\d{6}"
+                  maxLength="6"
+                  placeholder="Enter key"
+                  title="Enter key"
+                ></input>
+              </div>
             </div>
-          </div>
-          <div className="key">
-            <label for="code">Receive</label>
-            <input type="number" id="key" name="code" min="6" max="6"></input>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </>
   );

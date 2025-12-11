@@ -71,17 +71,53 @@ body,
   padding-top: 25%;
   padding-left: 24%;
 } */
-.upload{
+.main-container{
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 26%;
+  justify-content: center;
+  gap: 100px;
+  padding-top: 25%;
 }
-.key{
+.key-container{
   position: relative;
 }
+.key{
+  display: grid;
+  border: 2px white transparent;
+  border-radius: 20px;
+  height: 140px;
+  width: 270px;
+  background-color: #EC4DAF;
+}
 .key label{
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+  font-weight:900;
+  padding: 10px;
+  letter-spacing: 2px;
+}
+.key input{
+  width: 250px;
+  height: 60px;
+  margin: 10px;
+  padding: 20px;
+  background-color:rgb(241, 111, 192);
+  font-size: 40px;
+  border-radius: 20px;
+  letter-spacing: 15px;
+  border: transparent;
   color: white;
+}
+.key input:focus{
+  outline: transparent;
+  border: transparent;
+  filter: drop-shadow(1px 5px 30px #000000);
+}
+.key input::placeholder {
+  letter-spacing: 5.5px;   /* or whatever you want */
+  color: rgba(255,255,255,0.6);
+  font-size: 30px;
 }
 /* From Uiverse.io by jamrockjones */
 .container {
@@ -99,6 +135,7 @@ body,
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   height: calc(var(--folder-H) * 1.7);
   position: absolute;
+  z-index: 20;
 }
 
 .folder {
@@ -184,6 +221,7 @@ body,
   width: 100%;
   padding: 10px 35px;
   position: relative;
+  z-index: 21;
 }
 
 .custom-file-upload:hover {
