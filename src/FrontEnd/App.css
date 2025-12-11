@@ -1,4 +1,138 @@
-/* App.css */
+/* Change section */
+
+.main-container {
+  display: flex; 
+  flex-direction: row; 
+  align-items: center;
+  justify-content: center;
+  gap: 300px; 
+  padding-top: 20%;
+  position: relative;
+  z-index: 20;
+}
+.key {
+  display: grid;
+  border: 2px white transparent;
+  border-radius: 20px;
+  height: auto;
+  width: 270px;
+  background-color: #EC4DAF;
+}
+.key label{
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+  font-weight:900;
+  padding: 10px;
+  letter-spacing: 2px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.key input{
+  width: 250px;
+  height: auto;
+  margin: 10px;
+  padding: 20px;
+  background-color:rgb(241, 111, 192);
+  font-size: 38px;
+  border-radius: 20px;
+  letter-spacing: 15px;
+  border: transparent;
+  color: white;
+  font-family:Georgia;
+}
+.key input:focus{
+  outline: transparent;
+  border: transparent;
+  filter: drop-shadow(1px 5px 30px #000000);
+}
+.key input::placeholder {
+  letter-spacing: 5.5px;
+  color: rgba(255,255,255,0.6);
+  font-size: 30px;
+}
+/* From Uiverse.io by gharsh11032000 */ 
+.key button {
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 2rem;
+  border-radius: 1.1rem;
+  background: transparent;
+  background-size: 400%;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 1;
+}
+
+/* Make sure button-content has higher z-index than ::before */
+.button-content {
+  position: relative;
+  z-index: 2;
+}
+
+.key button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(150, 93, 233, 1) 10.8%,
+    rgba(99, 88, 238, 1) 94.3%
+  );
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 1;
+}
+
+.key button:hover::before {
+  transform: scaleY(1);
+}
+
+.key button:active {
+  scale: 0.9;
+}
+
+
+
+
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .glass-heading {
+    min-width: 90%;
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+  }
+
+  .glass-heading h1 {
+    font-size: 2.5rem;
+  }
+
+  .interactive-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  .upload{
+    padding-top: 60%;
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Dont change ui taken from Open-Source UI Library's  */
 * {
   margin: 0;
   padding: 0;
@@ -67,61 +201,8 @@ body,
   /* Make the text itself interactive */
   pointer-events: auto;
 }
-/* .main-container {
-  padding-top: 25%;
-  padding-left: 24%;
-} */
-.main-container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 100px;
-  padding-top: 25%;
-}
-.key-container{
-  position: relative;
-}
-.key{
-  display: grid;
-  border: 2px white transparent;
-  border-radius: 20px;
-  height: 140px;
-  width: 270px;
-  background-color: #EC4DAF;
-}
-.key label{
-  color: rgb(255, 255, 255);
-  font-size: 30px;
-  font-weight:900;
-  padding: 10px;
-  letter-spacing: 2px;
-}
-.key input{
-  width: 250px;
-  height: 60px;
-  margin: 10px;
-  padding: 20px;
-  background-color:rgb(241, 111, 192);
-  font-size: 40px;
-  border-radius: 20px;
-  letter-spacing: 15px;
-  border: transparent;
-  color: white;
-}
-.key input:focus{
-  outline: transparent;
-  border: transparent;
-  filter: drop-shadow(1px 5px 30px #000000);
-}
-.key input::placeholder {
-  letter-spacing: 5.5px;   /* or whatever you want */
-  color: rgba(255,255,255,0.6);
-  font-size: 30px;
-}
 /* From Uiverse.io by jamrockjones */
 .container {
-  
   --transition: 350ms;
   --folder-W: 120px;
   --folder-H: 80px;
@@ -134,17 +215,18 @@ body,
   border-radius: 15px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   height: calc(var(--folder-H) * 1.7);
-  position: absolute;
+  /* No position: absolute here! */
   z-index: 20;
 }
 
 .folder {
-  position: absolute;
-  top: -20px;
-  left: calc(50% - 60px);
+  position: relative;
+  top: -100px;
+  left: -60px;
   animation: float 2.5s infinite ease-in-out;
   transition: transform var(--transition) ease;
 }
+
 
 .folder:hover {
   transform: scale(1.05);
@@ -222,6 +304,7 @@ body,
   padding: 10px 35px;
   position: relative;
   z-index: 21;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .custom-file-upload:hover {
@@ -521,23 +604,3 @@ body,
   }
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .glass-heading {
-    min-width: 90%;
-    padding: 1.5rem 2rem;
-    border-radius: 20px;
-  }
-
-  .glass-heading h1 {
-    font-size: 2.5rem;
-  }
-
-  .interactive-section {
-    flex-direction: column;
-    align-items: center;
-  }
-  .upload{
-    padding-top: 60%;
-  }
-}
