@@ -1,7 +1,15 @@
-import { PI } from "three/tsl";
+// import { PI } from "three/tsl";
+import { useRef } from "react";
 import "./App.css";
 import Hyperspeed from "./external/Hyperspeed.jsx";
+
 export default function App() {
+  const formRef=useRef(null);
+  const fileChange=()=>{
+    if(formRef.current){
+      formRef.current.submit();
+    }
+  };
   return (
     <>
       <div className="app-container">
@@ -12,7 +20,7 @@ export default function App() {
           <h1>Hyperspeed</h1>
         </div>
         <div className="main-container">
-          <form action="/upload" method="POST">
+          <form action="/upload" method="POST" ref={formRef}>
             <div className="container">
               <div className="folder">
                 <div className="front-side">
@@ -22,7 +30,7 @@ export default function App() {
                 <div className="back-side cover"></div>
               </div>
               <label className="custom-file-upload">
-                <input className="title" type="file" />
+                <input className="title" type="file" accept="image/*,video/*,audio/*,.zip" onChange={fileChange} />
                 Upload a File
               </label>
             </div>
