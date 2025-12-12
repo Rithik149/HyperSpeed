@@ -1,11 +1,11 @@
 /* Change section */
 
 .main-container {
-  display: flex; 
-  flex-direction: row; 
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 300px; 
+  gap: 300px;
   padding-top: 20%;
   position: relative;
   z-index: 20;
@@ -16,92 +16,44 @@
   border-radius: 20px;
   height: auto;
   width: 270px;
-  background-color: #EC4DAF;
+  background-color: #ec4daf;
 }
-.key label{
+.key label {
   color: rgb(255, 255, 255);
   font-size: 30px;
-  font-weight:900;
+  font-weight: 900;
   padding: 10px;
   letter-spacing: 2px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
-.key input{
+.key input {
   width: 250px;
   height: auto;
   margin: 10px;
   padding: 20px;
-  background-color:rgb(241, 111, 192);
+  background-color: rgb(241, 111, 192);
   font-size: 38px;
   border-radius: 20px;
   letter-spacing: 15px;
   border: transparent;
   color: white;
-  font-family:Georgia;
+  font-family: Georgia;
 }
-.key input:focus{
+.key input:focus {
   outline: transparent;
   border: transparent;
-  filter: drop-shadow(1px 5px 30px #000000);
+  /* filter: drop-shadow(1px 5px 30px #000000); */
 }
 .key input::placeholder {
   letter-spacing: 5.5px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 30px;
 }
-/* From Uiverse.io by gharsh11032000 */ 
-.key button {
-  position: relative;
-  overflow: hidden;
-  height: 3rem;
-  padding: 0 2rem;
-  border-radius: 1.1rem;
-  background: transparent;
-  background-size: 400%;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.23, 1, 0.320, 1);
-  z-index: 1;
+.key input:hover{
+  filter: drop-shadow(1px 5px 30px #000000);
+  transition: 1s;
+  transition-timing-function: ease;
 }
-
-/* Make sure button-content has higher z-index than ::before */
-.button-content {
-  position: relative;
-  z-index: 2;
-}
-
-.key button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: scaleY(0);
-  transform-origin: bottom;
-  width: 100%;
-  height: inherit;
-  border-radius: inherit;
-  background: linear-gradient(
-    82.3deg,
-    rgba(150, 93, 233, 1) 10.8%,
-    rgba(99, 88, 238, 1) 94.3%
-  );
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-  z-index: 1;
-}
-
-.key button:hover::before {
-  transform: scaleY(1);
-}
-
-.key button:active {
-  scale: 0.9;
-}
-
-
-
-
-
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -119,18 +71,16 @@
     flex-direction: column;
     align-items: center;
   }
-  .upload{
+  .upload {
     padding-top: 60%;
   }
+  .main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    padding-top: 15rem;
+  }
 }
-
-
-
-
-
-
-
-
 
 /* Dont change ui taken from Open-Source UI Library's  */
 * {
@@ -227,7 +177,6 @@ body,
   transition: transform var(--transition) ease;
 }
 
-
 .folder:hover {
   transform: scale(1.05);
 }
@@ -304,7 +253,7 @@ body,
   padding: 10px 35px;
   position: relative;
   z-index: 21;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .custom-file-upload:hover {
@@ -315,7 +264,7 @@ body,
   display: none;
 }
 
-/* From Uiverse.io by pharmacist-sabot */ 
+/* From Uiverse.io by pharmacist-sabot */
 /* --- Root Variables & Wrapper --- */
 .glitch-input-wrapper {
   --bg-color: #0d0d0d;
@@ -353,9 +302,7 @@ body,
   font-size: 1.1rem;
   caret-color: var(--primary-color);
   z-index: 10;
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 /* --- Floating Label --- */
@@ -488,9 +435,7 @@ body,
 .stream-bar {
   flex-grow: 1;
   background-color: var(--primary-color);
-  transition:
-    transform 0.2s,
-    opacity 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
   transform: scaleY(0);
   transform-origin: bottom;
 }
@@ -521,7 +466,53 @@ body,
   animation: data-pulse 2s infinite;
   animation-delay: calc(var(--i) * 0.1s);
 }
+/* From Uiverse.io by gharsh11032000 */
+.key button {
+  position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 2rem;
+  border-radius: 1.1rem;
+  background: transparent;
+  background-size: 400%;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+}
 
+.button-content {
+  position: relative;
+  z-index: 2;
+}
+
+.key button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(150, 93, 233, 1) 10.8%,
+    rgba(99, 88, 238, 1) 94.3%
+  );
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+}
+
+.key button:hover::before {
+  transform: scaleY(1);
+}
+
+.key button:active {
+  scale: 0.9;
+}
 /* --- Keyframes --- */
 @keyframes glitch-label {
   0% {
@@ -603,4 +594,3 @@ body,
     background-position: 100% 50%;
   }
 }
-
