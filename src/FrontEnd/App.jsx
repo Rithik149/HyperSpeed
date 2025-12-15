@@ -20,7 +20,7 @@ export default function App() {
           <h1>Hyperspeed</h1>
         </div>
         <div className="main-container">
-          <form action="/upload" method="POST" ref={formRef}>
+          <form action="http://localhost:3000/upload" method="POST" ref={formRef} encType="multipart/form-data">
             <div className="container">
               <div className="folder">
                 <div className="front-side">
@@ -30,7 +30,7 @@ export default function App() {
                 <div className="back-side cover"></div>
               </div>
               <label className="custom-file-upload">
-                <input className="title" type="file" accept="image/*,video/*,audio/*,.zip" onChange={fileChange} />
+                <input className="title" type="file" name="file" accept="image/*,video/*,audio/*,.zip" onChange={fileChange} />
                 Upload a File
               </label>
             </div>

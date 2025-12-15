@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "express": "^5.2.1",
     "gsap": "^3.14.1",
+    "multer": "^2.0.2",
     "postprocessing": "^6.38.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
