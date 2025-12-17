@@ -1,15 +1,39 @@
 // import { PI } from "three/tsl";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import Hyperspeed from "./external/Hyperspeed.jsx";
 
 export default function App() {
-  const formRef=useRef(null);
-  const fileChange=()=>{
-    if(formRef.current){
-      formRef.current.submit();
+  const formRef = useRef(null);
+  const fileRef = useRef(null);
+  const [status, setStatus] = useState("");
+
+  async function uploadFile(file) {
+    setStatus("Uploading...");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("http://localhost:3000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      const data = await res.json();
+
+      setStatus(
+        `Uploaded: ${data.file.name} (${Math.round(data.file.size / 1024)} KB)`
+      );
+    } catch (err) {
+      console.error(err);
+      console.log(status);
+      setStatus("Upload Failed");
     }
-  };
+  }
+
   return (
     <>
       <div className="app-container">
@@ -20,7 +44,7 @@ export default function App() {
           <h1>Hyperspeed</h1>
         </div>
         <div className="main-container">
-          <form action="http://localhost:3000/upload" method="POST" ref={formRef} encType="multipart/form-data">
+          <form ref={formRef}>
             <div className="container">
               <div className="folder">
                 <div className="front-side">
@@ -30,7 +54,17 @@ export default function App() {
                 <div className="back-side cover"></div>
               </div>
               <label className="custom-file-upload">
-                <input className="title" type="file" name="file" accept="image/*,video/*,audio/*,.zip" onChange={fileChange} />
+                <input
+                  className="title"
+                  type="file"
+                  name="file"
+                  ref={fileRef}
+                  accept="image/*,video/*,audio/*,.zip"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) uploadFile(file);
+                  }}
+                />
                 Upload a File
               </label>
             </div>
