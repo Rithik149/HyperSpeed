@@ -23,13 +23,12 @@ export default function App() {
       if (!res.ok) throw new Error("Upload failed");
 
       const data = await res.json();
+      console.log("The Response is : ",data);
 
-      setStatus(
-        `Uploaded: ${data.file.name} (${Math.round(data.file.size / 1024)} KB)`
-      );
+      setStatus(`Uploaded: ${data.file.name}\nShare Code: ${data.code}`);
+      console.log(status);
     } catch (err) {
       console.error(err);
-      console.log(status);
       setStatus("Upload Failed");
     }
   }
@@ -37,7 +36,6 @@ export default function App() {
   return (
     <>
       <div className="app-container">
-        {/* Hyperspeed Background - Interactive */}
         <Hyperspeed />
 
         <div className="glass-heading">

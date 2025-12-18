@@ -3,8 +3,20 @@ const app = express();
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // allow Vite frontend because js in not reading in f_end
+  })
+);
 
 const upload = multer({ dest: "src/BackEnd/user_temps/uploads" });
+const shareStore = new Map();
+
+function generateCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 app.post("/upload", upload.single("file"), (req, res) => {
   const { originalname, filename, destination, size, mimetype } = req.file;
@@ -21,10 +33,26 @@ app.post("/upload", upload.single("file"), (req, res) => {
   const newPath = path.join(destination, newName);
 
   fs.renameSync(oldPath, newPath);
+
+  //code generation
+  let code;
+  do {
+    code = generateCode();
+  } while (shareStore.has(code));
+
+  shareStore.set(code, {
+    path: newPath,
+    name: newName,
+    size,
+    type: mimetype,
+    expiresAt: Date.now() + 10 * 60 * 1000,
+  });
   
+
   res.json({
-    success:true,
-    file:{
+    success: true,
+    code,
+    file: {
       name: newName,
       size,
       type: mimetype,

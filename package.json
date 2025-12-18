@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "gsap": "^3.14.1",
     "multer": "^2.0.2",
