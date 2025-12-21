@@ -1,5 +1,5 @@
 // import { PI } from "three/tsl";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import Hyperspeed from "./external/Hyperspeed.jsx";
 
@@ -7,6 +7,8 @@ export default function App() {
   const formRef = useRef(null);
   const fileRef = useRef(null);
   const [status, setStatus] = useState("");
+  const [uploadResult, setUploadResult] = userState(null);
+  const [timeLeft, setTimeLeft] = userState(0);
 
   async function uploadFile(file) {
     setStatus("Uploading...");
@@ -23,7 +25,11 @@ export default function App() {
       if (!res.ok) throw new Error("Upload failed");
 
       const data = await res.json();
-      console.log("The Response is : ",data);
+      console.log("The Response is : ", data);
+
+      setUploadResult(data);
+      setTimeLeft(10 * 60);
+      
 
       setStatus(`Uploaded: ${data.file.name}\nShare Code: ${data.code}`);
       console.log(status);
