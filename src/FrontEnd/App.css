@@ -54,6 +54,23 @@
   transition: 1s;
   transition-timing-function: ease;
 }
+.share-box {
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(20px);
+  text-align: center;
+}
+
+.share-code {
+  font-size: 3rem;
+  letter-spacing: 6px;
+  margin: 12px 0;
+}
+
+.timer {
+  color: #ffcc00;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
