@@ -10,22 +10,22 @@ export default function App() {
   const [uploadResult, setUploadResult] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
 
-      useEffect(() => {
-      //sets timer only after upload
-      if (!uploadResult) return;
+  useEffect(() => {
+    //sets timer only after upload
+    if (!uploadResult) return;
 
-      const interval = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-      return () => clearInterval(interval);
-    }, [uploadResult]);
+    return () => clearInterval(interval);
+  }, [uploadResult]);
 
   async function uploadFile(file) {
     setStatus("Uploading...");
@@ -57,7 +57,7 @@ export default function App() {
   return (
     <>
       <div className="app-container">
-        <Hyperspeed />
+        {/* <Hyperspeed /> */}
 
         <div className="glass-heading">
           <h1>Hyperspeed</h1>
@@ -92,7 +92,7 @@ export default function App() {
           )}
           {uploadResult && (
             <div className="share-box">
-              <p>Share this code</p>
+              <p id="heading">Share this code</p>
 
               <h1 className="share-code">{uploadResult.code}</h1>
 
@@ -102,7 +102,7 @@ export default function App() {
               </p>
 
               <p className="file-info">
-                {uploadResult.file.name} <br />
+                {uploadResult.file.type} <br />
                 {Math.round(uploadResult.file.size / 1024)} KB
               </p>
             </div>
