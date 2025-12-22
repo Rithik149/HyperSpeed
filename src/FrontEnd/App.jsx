@@ -3,6 +3,9 @@ import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import Hyperspeed from "./external/Hyperspeed.jsx";
 
+function Background(){
+  return <Hyperspeed />
+}
 export default function App() {
   const formRef = useRef(null);
   const fileRef = useRef(null);
@@ -57,7 +60,7 @@ export default function App() {
   return (
     <>
       <div className="app-container">
-        {/* <Hyperspeed /> */}
+        <Background />
 
         <div className="glass-heading">
           <h1>Hyperspeed</h1>
