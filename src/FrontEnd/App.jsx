@@ -3,8 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import "./App.css";
 import Hyperspeed from "./external/Hyperspeed.jsx";
 
-function Background(){
-  return <Hyperspeed />
+function Background() {
+  return <Hyperspeed />;
 }
 export default function App() {
   const formRef = useRef(null);
@@ -12,7 +12,7 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [uploadResult, setUploadResult] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
-
+  const [expired, setExpired] = useState(false);
   useEffect(() => {
     //sets timer only after upload
     if (!uploadResult) return;
@@ -21,6 +21,8 @@ export default function App() {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
+          setExpired(true);
+          setUploadResult(null);
           return 0;
         }
         return prev - 1;
@@ -31,6 +33,7 @@ export default function App() {
   }, [uploadResult]);
 
   async function uploadFile(file) {
+    setExpired(false);
     setStatus("Uploading...");
 
     const formData = new FormData();
@@ -44,11 +47,19 @@ export default function App() {
 
       if (!res.ok) throw new Error("Upload failed");
 
-      const data = await res.json();
+      const data = await res.json(); //data collected from the backend
       console.log("The Response is : ", data);
 
       setUploadResult(data);
-      setTimeLeft(10 * 60);
+
+      const now = Date.now();
+      const remainingSeconds = Math.max(
+        Math.floor((data.expiresAt - now) / 1000),
+        0
+      );
+
+      setTimeLeft(remainingSeconds);
+
       setStatus(`Uploaded: ${data.file.name}\nShare Code: ${data.code}`);
       console.log(status);
     } catch (err) {
@@ -110,7 +121,11 @@ export default function App() {
               </p>
             </div>
           )}
-
+          {expired && (
+            <p className="expired-msg">
+              Code expired.Upload again to generate a new code
+            </p>
+          )}
           <form action="/download" method="POST">
             <div className="key">
               <label htmlFor="key">Receive</label>

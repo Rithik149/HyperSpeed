@@ -47,11 +47,12 @@ app.post("/upload", upload.single("file"), (req, res) => {
     type: mimetype,
     expiresAt: Date.now() + 10 * 60 * 1000,
   });
-  
+  const entry=shareStore.get(code);
 
   res.json({
     success: true,
     code,
+    expiresAt:entry.expiresAt,
     file: {
       name: newName,
       size,
