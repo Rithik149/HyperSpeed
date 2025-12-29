@@ -60,6 +60,13 @@ app.post("/upload", upload.single("file"), (req, res) => {
     },
   });
 });
+app.post("/download:code",(req,res)=>{
+  const code=req.code;
+  if(!code) return;
+  if(code===shareStore.code){
+    res.send(shareStore.name,"File is connected");
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("Server is running");
