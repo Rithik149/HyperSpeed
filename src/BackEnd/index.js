@@ -4,6 +4,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import cors from "cors";
+import { error } from "console";
 
 app.use(
   cors({
@@ -47,12 +48,12 @@ app.post("/upload", upload.single("file"), (req, res) => {
     type: mimetype,
     expiresAt: Date.now() + 10 * 60 * 1000,
   });
-  const entry=shareStore.get(code);
+  const entry = shareStore.get(code);
 
   res.json({
     success: true,
     code,
-    expiresAt:entry.expiresAt,
+    expiresAt: entry.expiresAt,
     file: {
       name: newName,
       size,
@@ -60,12 +61,26 @@ app.post("/upload", upload.single("file"), (req, res) => {
     },
   });
 });
-app.post("/download:code",(req,res)=>{
-  const code=req.code;
-  if(!code) return;
-  if(code===shareStore.code){
-    res.send(shareStore.name,"File is connected");
+
+app.post("/download/:code", (req, res) => {
+  const { code } = req.params();
+
+  const entry = shareStore.get(code);
+
+  if (!entry) {
+    return res.status(404).json({ error: "Invalid code" });
   }
+
+  if (entry.expiresAt < Date.now()) {
+    shareStore.delete(code);
+    return res.status(410).json({ error: "Code expired!" });
+  }
+
+  res.download(entry.path, entry.name, (err) => {
+    if (!err) {
+      shareStore.delete(code); // invalid also res.send("something stupid") works better i guess
+    }
+  });
 });
 
 app.get("/", (req, res) => {

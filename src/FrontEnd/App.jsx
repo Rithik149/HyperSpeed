@@ -67,14 +67,16 @@ export default function App() {
       setStatus("Upload Failed");
     }
   }
+
   function handleRecive(e) {
     e.preventDefault();
     const code = e.target.code.value;
     if (code.length != 6) return;
 
-    const iframe=document.getElementById("download-frame");
-    iframe.src=`http://localhost:3000/download/${code}`;
+    const iframe = document.getElementById("download-frame");
+    iframe.src = `http://localhost:3000/download/${code}`;
   }
+  
   return (
     <>
       <div className="app-container">
@@ -133,7 +135,7 @@ export default function App() {
               Code expired.Upload again to generate a new code
             </p>
           )}
-          <form action="/download" method="POST" onSubmit={handleRecive}>
+          <form onSubmit={handleRecive}>
             <div className="key">
               <label htmlFor="key">Receive</label>
               <input
