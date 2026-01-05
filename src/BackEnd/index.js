@@ -42,6 +42,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
   } while (shareStore.has(code));
 
   shareStore.set(code, {
+    //its a map dont forget
     path: newPath,
     name: newName,
     size,
@@ -62,12 +63,14 @@ app.post("/upload", upload.single("file"), (req, res) => {
   });
 });
 
-app.post("/download/:code", (req, res) => {
-  const { code } = req.params();
+app.get("/download/:code", (req, res) => {
+  const { code } = req.params;
+  console.log("Download requested for code:", code);
 
-  const entry = shareStore.get(code);
+  const entry = shareStore.get(code); // get set delete
 
   if (!entry) {
+    // console.log("fucked");
     return res.status(404).json({ error: "Invalid code" });
   }
 

@@ -68,15 +68,18 @@ export default function App() {
     }
   }
 
-  function handleRecive(e) {
+  function handleReceive(e) {
     e.preventDefault();
-    const code = e.target.code.value;
-    if (code.length != 6) return;
+
+    const rawCode = e.target.code.value;
+    const code = rawCode.replace(/\s+/g, "");
+
+    if (code.length !== 6) return;
 
     const iframe = document.getElementById("download-frame");
     iframe.src = `http://localhost:3000/download/${code}`;
   }
-  
+
   return (
     <>
       <div className="app-container">
@@ -135,7 +138,7 @@ export default function App() {
               Code expired.Upload again to generate a new code
             </p>
           )}
-          <form onSubmit={handleRecive}>
+          <form onSubmit={handleReceive}>
             <div className="key">
               <label htmlFor="key">Receive</label>
               <input
