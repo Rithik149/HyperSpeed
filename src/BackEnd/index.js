@@ -5,6 +5,15 @@ import fs from "fs";
 import path from "path";
 import cors from "cors";
 import { error } from "console";
+import pg from "pg";
+const { Pool } = pg;
+const pool=new Pool({
+  user:"postgres",
+  password:"2004",
+  host:"localhost",
+  port:5432,
+  database:"hyperspeed",
+});
 
 app.use(
   cors({
@@ -19,7 +28,7 @@ function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/upload", upload.single("file"),async (req, res) => {
   const { originalname, filename, destination, size, mimetype } = req.file;
 
   const ext = path.extname(originalname); //extension
@@ -40,6 +49,13 @@ app.post("/upload", upload.single("file"), (req, res) => {
   do {
     code = generateCode();
   } while (shareStore.has(code));
+
+  await pool.query(
+    `
+    INSERT INTO shared_files(code,file_path,original_name,size,mime_type,expires_at) VALUES($1,$2,$3,$4,$5,$6)
+    `,
+    [code,newPath,newName,size,mimetype,new Date(Date.now() + 10 * 60 * 1000)]
+  );
 
   shareStore.set(code, {
     //its a map dont forget
