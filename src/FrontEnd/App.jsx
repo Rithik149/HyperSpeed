@@ -13,6 +13,7 @@ export default function App() {
   const [uploadResult, setUploadResult] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [expired, setExpired] = useState(false);
+  
   useEffect(() => {
     //sets timer only after upload
     if (!uploadResult) return;

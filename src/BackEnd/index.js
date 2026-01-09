@@ -56,21 +56,12 @@ app.post("/upload", upload.single("file"),async (req, res) => {
     `,
     [code,newPath,newName,size,mimetype,new Date(Date.now() + 10 * 60 * 1000)]
   );
-
-  shareStore.set(code, {
-    //its a map dont forget
-    path: newPath,
-    name: newName,
-    size,
-    type: mimetype,
-    expiresAt: Date.now() + 10 * 60 * 1000,
-  });
-  const entry = shareStore.get(code);
-
+  const expires_at=Date.now()+10*60*1000;
+  
   res.json({
     success: true,
     code,
-    expiresAt: entry.expiresAt,
+    expiresAt: expires_at,
     file: {
       name: newName,
       size,
