@@ -22,10 +22,46 @@ app.use(
 );
 
 const upload = multer({ dest: "src/BackEnd/user_temps/uploads" });
-const shareStore = new Map();
 
 function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+async function insertWithUniqueCode({
+  filePath,
+  originalName,
+  size,
+  mimeType,
+  expiresAt
+}) {
+  const maxRetries = 5;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const code = generateCode();
+
+    try {
+      await pool.query(
+        `
+        INSERT INTO shared_files
+        (code, file_path, original_name, size, mime_type, expires_at)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        `,
+        [code, filePath, originalName, size, mimeType, expiresAt]
+      );
+
+      //DB accepted the code
+      return code;
+
+    }
+    catch (err) {
+      // Duplicate code → retry
+      if (err.code === "23505") continue;
+
+      // Any other error
+      throw err;
+    }
+  }
+
+  throw new Error("Could not generate unique code");
 }
 
 app.post("/upload", upload.single("file"),async (req, res) => {
@@ -45,23 +81,21 @@ app.post("/upload", upload.single("file"),async (req, res) => {
   fs.renameSync(oldPath, newPath);
 
   //code generation
-  let code;
-  do {
-    code = generateCode();
-  } while (shareStore.has(code));
-
-  await pool.query(
-    `
-    INSERT INTO shared_files(code,file_path,original_name,size,mime_type,expires_at) VALUES($1,$2,$3,$4,$5,$6)
-    `,
-    [code,newPath,newName,size,mimetype,new Date(Date.now() + 10 * 60 * 1000)]
-  );
-  const expires_at=Date.now()+10*60*1000;
+  const expiresAt = Date.now() + 10 * 60 * 1000;
   
+  const code = await insertWithUniqueCode({
+    filePath: newPath,
+    originalName: newName,
+    size,
+    mimeType: mimetype,
+    expiresAt
+  });
+
+
   res.json({
     success: true,
     code,
-    expiresAt: expires_at,
+    expiresAt,
     file: {
       name: newName,
       size,
