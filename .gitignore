@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+node_modules/
+.env
+backend/user_temps/uploads/
+dist/

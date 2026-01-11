@@ -1,50 +1,66 @@
-# React + Vite
+# HyperSpeed ⚡  
+**Temporary File Sharing with Expiring Access Codes**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+HyperSpeed is a SendAnywhere-style file sharing platform that allows users to upload files and share them using a short-lived access code. Files automatically expire and are removed from both disk and database, ensuring privacy and minimal storage usage.
 
-Currently, two official plugins are available:
+This project focuses on backend correctness, persistence, and lifecycle management rather than simple in-memory state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Upload files and generate a unique 6-digit access code
+- Download files using the access code (one-time access)
+- PostgreSQL-backed persistence (survives server restarts)
+- Automatic expiration of files using timestamps
+- Background cleanup job for expired files (DB + filesystem)
+- No page reloads during upload or download
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## 🧠 System Design Overview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Upload Flow
+1. File is uploaded and stored on disk
+2. Metadata is stored in PostgreSQL
+3. A unique access code is generated (DB-enforced uniqueness)
+4. An absolute expiry timestamp is assigned
 
-```
-easy-send
-├─ eslint.config.js
-├─ index.html
-├─ package-lock.json
-├─ package.json
-├─ public
-│  └─ vite.svg
-├─ README.md
-├─ src
-│  ├─ assets
-│  ├─ BackEnd
-│  │  ├─ index.js
-│  │  └─ user_temps
-│  │     └─ uploads
-│  │        └─ 6f58892282272bd61f8386b02a8d9599
-│  ├─ FrontEnd
-│  │  ├─ App.css
-│  │  ├─ App.jsx
-│  │  └─ external
-│  │     ├─ fileup.jsx
-│  │     ├─ Hyperspeed.css
-│  │     └─ Hyperspeed.jsx
-│  ├─ main.css
-│  └─ main.jsx
-├─ user_temps
-│  └─ uploads
-│     └─ 6b8f6e0574f3796997f7defff5216b8e
-└─ vite.config.js
+### Download Flow
+1. Access code is validated against PostgreSQL
+2. Expiry is checked server-side
+3. File is streamed to the client
+4. File and DB entry are deleted after successful download
 
-```
+### Cleanup Flow
+- A background job periodically:
+  - Finds expired entries
+  - Deletes files from disk
+  - Removes corresponding database rows
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React, Vite
+- **Backend:** Node.js, Express
+- **Database:** PostgreSQL
+- **Storage:** Local filesystem
+- **Other:** Multer (uploads)
+
+---
+
+## 📚 What I Learned
+
+- Replacing in-memory state with database-backed persistence
+- Handling race conditions using database constraints
+- Designing time-based expiry systems
+- Coordinating filesystem state with database state
+- Writing safe background cleanup jobs
+
+---
+
+## 🧪 Status
+
+This project is actively developed and intended as a backend-focused portfolio project.
+
